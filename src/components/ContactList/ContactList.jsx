@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import IconButton from 'components/IconButton/IconButton';
 import { ReactComponent as AddIcon } from '../icons/minus-user.svg';
 import { ContactItems, ContactName, ContactNumber, Button } from './ContactList.styled'
 

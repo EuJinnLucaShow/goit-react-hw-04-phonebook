@@ -1,34 +1,23 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import Notiflix from 'notiflix';
-// import IconButton from 'components/IconButton/IconButton';
 import { ReactComponent as AddIcon } from '../icons/plus-user.svg';
 import { Form, Input, Text, Button } from './ContactForm.styled';
 
-class ContactForm extends Component {
-  
- state = {
-      name: '',
-      number: ''    
-  }
+function ContactForm({ addContact, contacts }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleNameChange = (event) => {
-    this.setState({
-      name: event.target.value,
-    });
+  const handleNameChange = (event) => {
+    setName(event.target.value);
   };
 
-  handleNumberChange = (event) => {
-    this.setState({
-      number: event.target.value,
-    });
+  const handleNumberChange = (event) => {
+    setNumber(event.target.value);
   };
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const { name, number } = this.state;
-    const { addContact, contacts } = this.props;
-
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
@@ -45,21 +34,15 @@ class ContactForm extends Component {
       return;
     }
 
-    const newContact = {
+ const newContact = {
       id: nanoid(),
       name: name.trim(),
       number: number.trim(),
     };
-
     addContact(newContact);
-    this.setState({
-      name: '',
-      number: '',
-    });
+    setName('');
+    setNumber('');
   };
-
-  render() {
-    const { name, number } = this.state;
 
     return (
       <Form>
@@ -71,7 +54,7 @@ class ContactForm extends Component {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           value={name}
-          onChange={this.handleNameChange}
+          onChange={handleNameChange}
         />
         <Text>Number</Text>
         <Input
@@ -81,13 +64,12 @@ class ContactForm extends Component {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           value={number}
-          onChange={this.handleNumberChange}
+          onChange={handleNumberChange}
         />
-        <Button onClick={this.handleSubmit}><AddIcon /></Button>
+        <Button onClick={handleSubmit}><AddIcon /></Button>
         
       </Form>
     );
   }
-}
 
 export default ContactForm;
