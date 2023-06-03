@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
-import Notiflix from 'notiflix';
 import { ReactComponent as AddIcon } from '../icons/plus-user.svg';
 import { Form, Input, Text, Button } from './ContactForm.styled';
 
-function ContactForm({ addContact, contacts }) {
+function ContactForm({ addContact }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -20,19 +19,7 @@ function ContactForm({ addContact, contacts }) {
     event.preventDefault();
     if (name.trim() === '' || number.trim() === '') {
       return;
-    }
-
-    const existingContact = contacts.find(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase()
-    );
-    if (existingContact) {
-      Notiflix.Report.warning(
-        'Alert',
-        `Contact with name "${name}" already exists!`,
-        'Ok'
-      );      
-      return;
-    }
+    } 
 
  const newContact = {
       id: nanoid(),
@@ -46,6 +33,7 @@ function ContactForm({ addContact, contacts }) {
 
     return (
       <Form onSubmit={handleSubmit}>
+        
         <Text>Name</Text>
         <Input
           type="text"
@@ -56,17 +44,19 @@ function ContactForm({ addContact, contacts }) {
           value={name}
           onChange={handleNameChange}
         />
+
         <Text>Number</Text>
         <Input
           type="tel"
           name="number"
-          pattern="\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           value={number}
           onChange={handleNumberChange}
         />
-        <Button type="submit"><AddIcon /></Button>
+
+        <Button type="submit"><AddIcon /></Button> 
         
       </Form>
     );
